@@ -6,7 +6,9 @@ import warnings
 import sys
 import numpy as np
 import math
-import utils
+
+sys.path.append("..")
+from src import utils
 import pickle
 from PIL import Image, ImageOps, ImageDraw
 
@@ -21,7 +23,7 @@ import torchvision.transforms as transforms
 import torchvision.models as models
 import torchvision.datasets as datasets
 
-from model import Model
+from ..model import Model
 
 from sklearn.metrics import normalized_mutual_info_score as nmi
 from sklearn.metrics import adjusted_mutual_info_score as adjusted_nmi

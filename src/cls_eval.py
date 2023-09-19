@@ -62,6 +62,8 @@ parser.add_argument('--cls-size', type=int, default=[1000], nargs='+',
                     help='size of classification layer. can be a list if cls-size > 1')
 parser.add_argument('--num-cls', default=1, type=int, metavar='NCLS',
                     help='number of classification layers')
+parser.add_argument('--update-cls-head', action='store_true',
+                    help='update classification head')
 parser.add_argument('--dim', default=128, type=int, metavar='DIM',
                     help='size of MLP embedding layer')
 parser.add_argument('--hidden-dim', default=4096, type=int, metavar='HDIM',
@@ -89,7 +91,7 @@ parser.add_argument('--kmeans-cls', default=None, type=str,
                     help='path to kmeans classifier')
 parser.add_argument('--superclass', default=None, const=None, nargs='?', type=str,
                     choices=[None, '0', '1', '2', '3', '4', '5', '6', '7', '8',
-                             'entity13', 'entity30', 'living17', 'nonliving26'],
+                             'entity13', 'entity30', 'living17', 'nonliving26', 'cifar10'],
                     help='type of superclass subset (default: %(default)s)')
 parser.add_argument('--imagenet-info-path', default='./imagenet_info/', type=str,
                     help='includes dataset_class_info.json, class_hierarchy.txt, node_names.txt')
@@ -236,6 +238,8 @@ def main():
             superclasses, _, _ = make_living17(args.imagenet_info_path)
         elif args.superclass == 'nonliving26':
             superclasses, _, _ = make_nonliving26(args.imagenet_info_path)
+        elif args.superclass == 'cifar10':
+            superclasses = {'airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck'}
         else:
             print(f"# Levels in hierarchy: {np.max(list(hier.level_to_nodes.keys()))}")
             print(f"# Nodes/level:",
@@ -243,13 +247,13 @@ def main():
             level = int(args.superclass)
             superclasses = hier.get_nodes_at_level(level)
             print(f"Superclasses at level {level}:\n")
-        print("; ".join([f"{hier.HIER_NODE_NAME[s]}" for s in superclasses]))
-        print('where, ')
-        for s in superclasses:
-            if s.startswith('d'):
-                print('{} is {}'.format(s, "; ".join([hier.LEAF_ID_TO_NAME[x] for x in
-                                                      list(hier.leaves_reachable(s))])), end='. ')
-        print('number of superclasses: {}'.format(len(superclasses)))
+        # print("; ".join([f"{hier.HIER_NODE_NAME[s]}" for s in superclasses]))
+        # print('where, ')
+        # for s in superclasses:
+        #     if s.startswith('d'):
+        #         print('{} is {}'.format(s, "; ".join([hier.LEAF_ID_TO_NAME[x] for x in
+        #                                               list(hier.leaves_reachable(s))])), end='. ')
+        # print('number of superclasses: {}'.format(len(superclasses)))
 
         superclass_mapping = np.arange(1000)
         class_indices = []

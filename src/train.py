@@ -387,7 +387,7 @@ def main_worker(gpu, ngpus_per_node, args):
                 'best_loss': best_loss,
                 'nn_queue': nn_queue,
                 'optimizer': optimizer.state_dict(),
-            }, is_best=is_best, is_milestone=(epoch + 1) % 25 == 0,
+            }, is_best=is_best, is_milestone=(epoch + 1) % 10 == 0,
                 filename=os.path.join(args.save_path, 'model_last.pth.tar'))
 
 
@@ -465,8 +465,8 @@ def train(loader, model, nn_queue, scaler, criterion, optimizer, lr_schedule, ep
         scaler.update()
 
         # record loss
-        loss = loss.detach() / dist.get_world_size()
-        dist.all_reduce(loss)  # compute mean over all workers
+        # loss = loss.detach() / dist.get_world_size()
+        # dist.all_reduce(loss)  # compute mean over all workers
         losses.update(loss.item(), probs[0][0].size(0))
 
         # measure elapsed time

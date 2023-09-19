@@ -23,6 +23,9 @@ class Model(nn.Module):
         # backbone
         self.backbone = base_model
         self.backbone.fc = nn.Identity()
+        # Enable this to freeze the backbone
+        # for param in self.backbone.parameters():
+        #     param.requires_grad = False
 
         # classification head
         self.mlp_head = MLPHead(in_dim=self.backbone_dim,

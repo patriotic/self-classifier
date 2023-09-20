@@ -1,25 +1,24 @@
 #!/usr/bin/env bash
 
-#DATASET_PATH="/proj/ciptmp/ku41ziko/self-classifier/scratch/imagenet/"
-#EXPERIMENT_PATH=="/proj/ciptmp/ku41ziko/self-classifier/scratch/sc_experiments/sc_100ep_train"
-DATASET_PATH="scratch/imagenet/"
-EXPERIMENT_PATH="scratch/sc_experiments/sc_100ep_train"
+DATASET_PATH="scratch/cifar10"
+EXPERIMENT_PATH="scratch/sc_experiments/pre_trained_model/cifar/train/sc_900ep_train"
+PRETRAINED_PATH="scratch/sc_experiments/pre_trained_model/cifar/train/sc_900ep_train/model_last.pth.tar"
 mkdir -p $EXPERIMENT_PATH
 
 python -u ./src/train.py \
 --syncbn_process_group_size 22 \
--j 32 \
--b 372 \
+-j 8 \
+-b 16 \
 --print-freq 16 \
---epochs 100 \
---lr 4.8 \
---start-warmup 0.3 \
---final-lr 0.0048 \
+--epochs 900 \
+--lr 3.2 \
+--start-warmup 0.2 \
+--final-lr 0.0032 \
 --lars \
 --sgd \
 --cos \
 --wd 1e-6 \
---cls-size 1000 2000 4000 8000 \
+--cls-size 10 20 40 80 \
 --num-cls 4 \
 --queue-len 262144 \
 --dim 128 \
@@ -32,4 +31,5 @@ python -u ./src/train.py \
 --local-crops-number 6 \
 --use-bn \
 --save-path ${EXPERIMENT_PATH} \
+--pretrained ${PRETRAINED_PATH} \
 ${DATASET_PATH}

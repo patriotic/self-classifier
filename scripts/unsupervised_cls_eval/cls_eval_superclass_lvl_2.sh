@@ -1,21 +1,13 @@
 #!/usr/bin/env bash
-#SBATCH --nodes=1
-#SBATCH --gres=gpu:1
-#SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=64
-#SBATCH --job-name=sc_800ep_cls_eval_superclass_lvl_2
-#SBATCH --time=00:10:00
-#SBATCH --requeue
-#SBATCH --mem=64G
 
-DATASET_PATH=${HOME}"/scratch/imagenet/"
-EXPERIMENT_PATH=${HOME}"/scratch/sc_experiments/sc_800ep_cls_eval_superclass_lvl_2"
-PRETRAINED_PATH=${HOME}"/scratch/sc_experiments/sc_800ep_train/model_800.pth.tar"
+DATASET_PATH="D:/FAU/RL/resources/imagenet/ILSVRC2012_img_val"
+EXPERIMENT_PATH="scratch/sc_experiments/sc_800ep_cls_eval_superclass_lvl_2"
+PRETRAINED_PATH="scratch/sc_experiments/sc_800ep_train/model_800.pth.tar"
 mkdir -p $EXPERIMENT_PATH
 
-srun --output=${EXPERIMENT_PATH}/%j.out --error=${EXPERIMENT_PATH}/%j.err --label python -u ./src/cls_eval.py \
+python -u ./src/cls_eval.py \
 --superclass 2 \
--j 32 \
+-j 4 \
 -b 512 \
 --print-freq 16 \
 --cls-size 1000 2000 4000 8000 \

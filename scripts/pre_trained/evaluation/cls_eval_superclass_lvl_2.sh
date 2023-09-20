@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 DATASET_PATH="D:/FAU/RL/resources/imagenet/ILSVRC2012_img_val"
-EXPERIMENT_PATH="scratch/sc_experiments/sc_800ep_cls_eval_superclass_lvl_3"
-PRETRAINED_PATH="scratch/sc_experiments/sc_800ep_train/model_800.pth.tar"
+EXPERIMENT_PATH="scratch/sc_experiments/pre_trained_model/sc_800ep_cls_eval_superclass_lvl_2"
+PRETRAINED_PATH="scratch/sc_experiments/pre_trained_model/sc_800ep_train/self-classifier.pth.tar"
 mkdir -p $EXPERIMENT_PATH
 
 python -u ./src/cls_eval.py \
---superclass 3 \
+--superclass 2 \
 -j 8 \
 -b 512 \
 --print-freq 16 \

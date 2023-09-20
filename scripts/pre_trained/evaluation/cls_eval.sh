@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
-DATASET_PATH="scratch/cifar10"
-EXPERIMENT_PATH="scratch/sc_experiments/sc_50ep_cifar_eval"
-PRETRAINED_PATH="scratch/sc_experiments/sc_100ep_cifar_eval/model_50.pth.tar"
+DATASET_PATH="D:/FAU/RL/resources/imagenet/ILSVRC2012_img_val"
+EXPERIMENT_PATH="scratch/sc_experiments/pre_trained_model/sc_800ep_eval"
+PRETRAINED_PATH="scratch/sc_experiments/pre_trained_model/sc_800ep_train/self-classifier.pth.tar"
 
-# Create experiment directory if it doesn't exist
 mkdir -p $EXPERIMENT_PATH
 
-# Run evaluation script
 python -u ./src/cls_eval.py \
 -j 8 \
 -b 512 \

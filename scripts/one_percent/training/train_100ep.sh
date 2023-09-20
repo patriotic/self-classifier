@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 
-#DATASET_PATH="/proj/ciptmp/ku41ziko/self-classifier/scratch/imagenet/"
-#EXPERIMENT_PATH=="/proj/ciptmp/ku41ziko/self-classifier/scratch/sc_experiments/sc_100ep_train"
-DATASET_PATH="scratch/imagenet/"
-EXPERIMENT_PATH="scratch/sc_experiments/sc_100ep_train"
+DATASET_PATH="/content/drive/MyDrive/RL/datasets/one_percent"
+EXPERIMENT_PATH="/content/drive/MyDrive/RL/sc_experiments/one_percent/sc_100ep_train"
 mkdir -p $EXPERIMENT_PATH
 
 python -u ./src/train.py \
 --syncbn_process_group_size 22 \
--j 32 \
--b 372 \
+-j 8 \
+-b 32 \
 --print-freq 16 \
 --epochs 100 \
 --lr 4.8 \
